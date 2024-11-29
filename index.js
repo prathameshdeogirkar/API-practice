@@ -16,6 +16,18 @@ const MOBILES = [
     { id: 10, name: "Asus ROG Phone 7", price: 999 },
 ];
 
+
+
+app.get("health", (req, res)=> {
+    res.json({
+        success: "true",
+        message: "Server is running"
+    });
+});
+
+
+
+
 app.get("/mobiles", (req, res) => {
 
     const { price } = req.query;;
@@ -104,7 +116,17 @@ app.delete("/mobiles/:id", (req, res)=> {
         success: "true",
         message: "student deleted successfully"
     });
-})
+});
+
+
+
+app.get("*", (req, res)=> {
+    res.json({
+        success: "False",
+        message: "Invalid API"
+    });
+});
+
 
 const PORT = 5001;
 app.listen(PORT, () => {
