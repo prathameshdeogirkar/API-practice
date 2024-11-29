@@ -80,6 +80,32 @@ app.post("/mobiles", (req, res)=>{
     })
 })
 
+
+app.delete("/mobiles/:id", (req, res)=> {
+    const {id} = req.params;
+    let mobileIndex = -1;
+
+    MOBILES.map((mob, index)=> {
+        if(mob.id == id) {
+            mobileIndex = index;
+        }
+    });
+
+
+    if(mobileIndex == -1) {
+        return res.json({
+            success: "false",
+            message: "mobile not found"
+        });
+    }
+
+    MOBILES.splice(mobileIndex, 1);
+    res.json({
+        success: "true",
+        message: "student deleted successfully"
+    });
+})
+
 const PORT = 5001;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
