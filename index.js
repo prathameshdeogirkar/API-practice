@@ -18,7 +18,7 @@ const MOBILES = [
 
 
 
-app.get("health", (req, res)=> {
+app.get("health", (req, res) => {
     res.json({
         success: "true",
         message: "Server is running"
@@ -50,7 +50,7 @@ app.get("/mobiles", (req, res) => {
 
 
 app.get("/mobiles/:id", (req, res) => {
-    const {id} = req.params
+    const { id } = req.params
 
     const mobile = MOBILES.find((mob) => {
         if (mob.id == id) {
@@ -58,7 +58,7 @@ app.get("/mobiles/:id", (req, res) => {
         }
     })
 
-    if (!mobile){
+    if (!mobile) {
         return res.json({
             success: false,
             data: null,
@@ -74,8 +74,8 @@ app.get("/mobiles/:id", (req, res) => {
 })
 
 
-app.post("/mobiles", (req, res)=>{
-    const {id, name, price} = req.body;
+app.post("/mobiles", (req, res) => {
+    const { id, name, price } = req.body;
 
     const mobile = {
         id,
@@ -93,18 +93,18 @@ app.post("/mobiles", (req, res)=>{
 })
 
 
-app.delete("/mobiles/:id", (req, res)=> {
-    const {id} = req.params;
+app.delete("/mobiles/:id", (req, res) => {
+    const { id } = req.params;
     let mobileIndex = -1;
 
-    MOBILES.map((mob, index)=> {
-        if(mob.id == id) {
+    MOBILES.map((mob, index) => {
+        if (mob.id == id) {
             mobileIndex = index;
         }
     });
 
 
-    if(mobileIndex == -1) {
+    if (mobileIndex == -1) {
         return res.json({
             success: "false",
             message: "mobile not found"
@@ -119,8 +119,109 @@ app.delete("/mobiles/:id", (req, res)=> {
 });
 
 
+app.put("/mobiles/:id", (req, res) => {
+    const { id } = req.params;
+    const { name, price } = req.body;
 
-app.get("*", (req, res)=> {
+    let mobileIndex = -1;
+
+    MOBILES.map((mob, index) => {
+        if (mob.id == id) {
+            mobileIndex = index;
+        }
+    });
+
+
+    if (mobileIndex == -1) {
+        return res.json({
+            success: "false",
+            message: "mobile not found"
+        });
+    }
+
+    const mobile = {
+        id,
+        name,
+        price,
+    }
+
+    MOBILES[mobileIndex] = mobile;
+
+    res.json({
+        success: "true",
+        message: "Mobile updated successfully"
+    })
+})
+
+
+
+
+app.patch("/mobiles/price/:id", (req, res) => {
+    const { id } = req.params;
+    const { price } = req.body;
+
+    let mobileIndex = -1;
+
+    MOBILES.map((mob, index) => {
+        if (mob.id == id) {
+            mobileIndex = index;
+        }
+    });
+
+
+    if (mobileIndex == -1) {
+        return res.json({
+            success: "false",
+            message: "mobile not found"
+        });
+    }
+
+    const mobile = MOBILES[mobileIndex];
+    mobile.price = price;
+
+    MOBILES[mobileIndex] = mobile;
+
+    res.json({
+        success: "true",
+        message: "Mobile price updated successfully"
+    })
+})
+
+
+
+
+app.get("/mobiles/:id", (req, res) => {
+    const { name, price } = req.body;
+
+    let mobileIndex = -1;
+
+    MOBILES.map((mob, index) => {
+        if (mob.id == id) {
+            mobileIndex = index;
+        }
+    });
+
+
+    if (mobileIndex == -1) {
+        return res.json({
+            success: "false",
+            message: "mobile not found"
+        });
+    }
+
+    const mobile = MOBILES[mobileIndex];
+
+    MOBILES[mobileIndex] = mobile;
+
+    res.json({
+        success: "true",
+        message: "Mobile updated successfully"
+    })
+})
+
+
+
+app.get("*", (req, res) => {
     res.json({
         success: "False",
         message: "Invalid API"
